@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01Line", "01Line\01Line.vcxproj", "{099AC2D0-A70B-4AF4-890C-9F9D081C12E2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02Ortho", "02Ortho\02Ortho.vcxproj", "{4A3B14CE-02C5-462C-B9FA-28A3790C9596}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03ObjectToWorld", "03ObjectToWorld\03ObjectToWorld.vcxproj", "{582E3866-58B5-44DD-A811-A011D6C9DAC3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04Mouse", "04Mouse\04Mouse.vcxproj", "{358972F6-7B21-48F3-A658-73901DD148FD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05Perspective", "05Perspective\05Perspective.vcxproj", "{D012B654-6BFB-4D70-B9A7-2B1F01961707}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06BackfaceCulling", "06BackfaceCulling\06BackfaceCulling.vcxproj", "{215E47C7-B09D-44D8-90E7-9CA1E56EABED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07Camera", "07Camera\07Camera.vcxproj", "{C31480DB-677A-415C-B822-E9D54D623E69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{099AC2D0-A70B-4AF4-890C-9F9D081C12E2}.Debug|x64.ActiveCfg = Debug|x64
+		{099AC2D0-A70B-4AF4-890C-9F9D081C12E2}.Debug|x64.Build.0 = Debug|x64
+		{099AC2D0-A70B-4AF4-890C-9F9D081C12E2}.Release|x64.ActiveCfg = Release|x64
+		{099AC2D0-A70B-4AF4-890C-9F9D081C12E2}.Release|x64.Build.0 = Release|x64
+		{4A3B14CE-02C5-462C-B9FA-28A3790C9596}.Debug|x64.ActiveCfg = Debug|x64
+		{4A3B14CE-02C5-462C-B9FA-28A3790C9596}.Debug|x64.Build.0 = Debug|x64
+		{4A3B14CE-02C5-462C-B9FA-28A3790C9596}.Release|x64.ActiveCfg = Release|x64
+		{4A3B14CE-02C5-462C-B9FA-28A3790C9596}.Release|x64.Build.0 = Release|x64
+		{582E3866-58B5-44DD-A811-A011D6C9DAC3}.Debug|x64.ActiveCfg = Debug|x64
+		{582E3866-58B5-44DD-A811-A011D6C9DAC3}.Debug|x64.Build.0 = Debug|x64
+		{582E3866-58B5-44DD-A811-A011D6C9DAC3}.Release|x64.ActiveCfg = Release|x64
+		{582E3866-58B5-44DD-A811-A011D6C9DAC3}.Release|x64.Build.0 = Release|x64
+		{358972F6-7B21-48F3-A658-73901DD148FD}.Debug|x64.ActiveCfg = Debug|x64
+		{358972F6-7B21-48F3-A658-73901DD148FD}.Debug|x64.Build.0 = Debug|x64
+		{358972F6-7B21-48F3-A658-73901DD148FD}.Release|x64.ActiveCfg = Release|x64
+		{358972F6-7B21-48F3-A658-73901DD148FD}.Release|x64.Build.0 = Release|x64
+		{D012B654-6BFB-4D70-B9A7-2B1F01961707}.Debug|x64.ActiveCfg = Debug|x64
+		{D012B654-6BFB-4D70-B9A7-2B1F01961707}.Debug|x64.Build.0 = Debug|x64
+		{D012B654-6BFB-4D70-B9A7-2B1F01961707}.Release|x64.ActiveCfg = Release|x64
+		{D012B654-6BFB-4D70-B9A7-2B1F01961707}.Release|x64.Build.0 = Release|x64
+		{215E47C7-B09D-44D8-90E7-9CA1E56EABED}.Debug|x64.ActiveCfg = Debug|x64
+		{215E47C7-B09D-44D8-90E7-9CA1E56EABED}.Debug|x64.Build.0 = Debug|x64
+		{215E47C7-B09D-44D8-90E7-9CA1E56EABED}.Release|x64.ActiveCfg = Release|x64
+		{215E47C7-B09D-44D8-90E7-9CA1E56EABED}.Release|x64.Build.0 = Release|x64
+		{C31480DB-677A-415C-B822-E9D54D623E69}.Debug|x64.ActiveCfg = Debug|x64
+		{C31480DB-677A-415C-B822-E9D54D623E69}.Debug|x64.Build.0 = Debug|x64
+		{C31480DB-677A-415C-B822-E9D54D623E69}.Release|x64.ActiveCfg = Release|x64
+		{C31480DB-677A-415C-B822-E9D54D623E69}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7E6F9B6-82B7-4EE9-8019-2E74EEA53C65}
+	EndGlobalSection
+EndGlobal
