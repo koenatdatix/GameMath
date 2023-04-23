@@ -35,7 +35,7 @@ LRESULT CALLBACK gm::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 gm::Application::Application(const int nCmdShow)
 	: mpWindowClass{ nullptr }
-	, mWindow{ L"GameMath 06: Camera" }
+	, mWindow{ L"GameMath 07: Camera" }
 	, mpD2DFactory{ nullptr }
 	, mMeshesPtr{}
 	, mKeyboard{}

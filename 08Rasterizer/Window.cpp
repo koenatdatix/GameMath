@@ -1,4 +1,6 @@
 #include "Window.h"
+#include "FixedCamera.h"
+#include "MovingCamera.h"
 
 gm::Window::Window(const std::wstring& title, uint32_t width, uint32_t height)
 	: mTitle{ title }
@@ -8,6 +10,7 @@ gm::Window::Window(const std::wstring& title, uint32_t width, uint32_t height)
 	, mpD2DFactory{ nullptr }
 	, mpRenderTarget{ nullptr }
 	, mpSolidColorBrush{ nullptr }
+	, mpCamera{ new FixedCamera{ width, height } }
 {
 }
 
@@ -15,6 +18,8 @@ gm::Window::~Window()
 {
 	SafeRelease(&mpSolidColorBrush);
 	SafeRelease(&mpRenderTarget);
+	if (mpCamera != nullptr)
+		delete mpCamera;
 }
 
 BOOL gm::Window::Initialize(const gm::Application* pApplication, const std::wstring& className, const int nCmdShow)
@@ -96,4 +101,23 @@ ID2D1HwndRenderTarget* gm::Window::GetRenderTarget()
 ID2D1SolidColorBrush* gm::Window::GetSolidColorBrush()
 {
 	return mpSolidColorBrush;
+}
+
+gm::Camera* gm::Window::GetCamera()
+{
+	return mpCamera;
+}
+
+void gm::Window::SetFixedCamera(uint32_t width, uint32_t height)
+{
+	if (mpCamera != nullptr)
+		delete mpCamera;
+	mpCamera = new FixedCamera{ width, height };
+}
+
+void gm::Window::SetMovingCamera(uint32_t width, uint32_t height)
+{
+	if (mpCamera != nullptr)
+		delete mpCamera;
+	mpCamera = new MovingCamera{ width, height };
 }

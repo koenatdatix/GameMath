@@ -1,8 +1,8 @@
-#include "pch.h"
 #include "Application.h"
 #include "WindowClass.h"
 #include "Cylinder.h"
 #include "MouseButton.h"
+#include "FixedCamera.h"
 
 const std::wstring gm::Application::mClassName{ L"GameMath" };
 
@@ -35,15 +35,18 @@ LRESULT CALLBACK gm::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 gm::Application::Application(const int nCmdShow)
 	: mpWindowClass{ nullptr }
-	, mWindow{ L"GameMath 06: BackfaceCulling" }
+	, mWindow{ L"GameMath 08: Rasterizer" }
 	, mpD2DFactory{ nullptr }
 	, mMeshesPtr{}
 	, mKeyboard{}
+	, mPrevKeyboard{}
+	, mMoveCamera{ false }
 	, mShowCursor{ true }
 	, mCursorMode{ gm::CursorMode::Absolute }
 	, mSaveCursorPos{}
 {
 	mpWindowClass = new gm::WindowClass{ mClassName };
+	mWindow.SetMovingCamera();
 	mWindow.Initialize(this, mClassName, nCmdShow);
 	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &mpD2DFactory);
 	mWindow.SetFactory(mpD2DFactory);
@@ -96,6 +99,10 @@ void gm::Application::Input(const double duration)
 	GetKeyboardState(mKeyboard);
 	gm::MouseButton mouseButton{ gm::MouseButton::Sentinel };
 	bool showCursor{ true };
+	if (
+		((mPrevKeyboard[VK_ESCAPE] & 0x80) == 0x00) &&
+		((mKeyboard[VK_ESCAPE] & 0x80) == 0x80))
+		mMoveCamera = !mMoveCamera;
 	if ((mKeyboard[VK_LBUTTON] & 0x80) == 0x80)
 	{
 		mouseButton = gm::MouseButton::Left;
@@ -125,8 +132,12 @@ void gm::Application::Input(const double duration)
 	}
 	mCursorPos = GetCursor();
 	if (mCursorMode == gm::CursorMode::Relative)
-		for (auto meshPtr : mMeshesPtr)
-			meshPtr->Move(float(duration), mouseButton, mCursorPos);
+		if (mMoveCamera)
+			mWindow.GetCamera()->Move(float(duration), mouseButton, mCursorPos);
+		else
+			for (auto meshPtr : mMeshesPtr)
+				meshPtr->Move(float(duration), mouseButton, mCursorPos);
+	std::memcpy(mPrevKeyboard, mKeyboard, sizeof(mKeyboard));
 }
 
 void gm::Application::Render()

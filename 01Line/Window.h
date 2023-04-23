@@ -4,7 +4,6 @@
 namespace gm
 {
 	class Application;
-	class Camera;
 
 	class Window final
 	{
@@ -18,9 +17,6 @@ namespace gm
 		void InvalidateRectangle();
 		ID2D1HwndRenderTarget* GetRenderTarget();
 		ID2D1SolidColorBrush* GetSolidColorBrush();
-		Camera* GetCamera();
-		void SetFixedCamera(uint32_t width = 1280, uint32_t height = 960);
-		void SetMovingCamera(uint32_t width = 1280, uint32_t height = 960);
 	private:
 		const std::wstring mTitle;
 		uint32_t
@@ -30,6 +26,5 @@ namespace gm
 		ID2D1Factory* mpD2DFactory;
 		ID2D1HwndRenderTarget* mpRenderTarget;
 		ID2D1SolidColorBrush* mpSolidColorBrush;
-		Camera* mpCamera;
 	};
 }

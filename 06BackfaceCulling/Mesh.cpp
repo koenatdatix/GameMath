@@ -92,6 +92,7 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 		wvp = gm::MatrixMultiply(mObjectToWorldMatrix, pCamera->GetViewInv());
 		wvp = gm::MatrixMultiply(wvp, pCamera->GetProj());
 
+		D2D1_SIZE_F size{ pRenderTarget->GetSize() };
 		mWvpVertices.clear();
 		mWvpVertices.reserve(mVertices.size());
 		mWorldVertices.clear();
@@ -103,8 +104,8 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 			v[0] /= v[3];
 			v[1] /= v[3];
 			v[2] = 1.f - (v[2] / v[3]);
-			v[0] *= 640.f;
-			v[1] *= 480.f;
+			v[0] *= (size.width / 2.f);
+			v[1] *= (size.height / 2.f);
 			mWvpVertices.emplace_back(v);
 		}
 		std::array<float, 4> camPos{};

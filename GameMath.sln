@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06BackfaceCulling", "06Back
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07Camera", "07Camera\07Camera.vcxproj", "{C31480DB-677A-415C-B822-E9D54D623E69}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08Rasterizer", "08Rasterizer\08Rasterizer.vcxproj", "{2B1957DC-B4A0-4751-9EF8-3B2FB3A682E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,10 @@ Global
 		{C31480DB-677A-415C-B822-E9D54D623E69}.Debug|x64.Build.0 = Debug|x64
 		{C31480DB-677A-415C-B822-E9D54D623E69}.Release|x64.ActiveCfg = Release|x64
 		{C31480DB-677A-415C-B822-E9D54D623E69}.Release|x64.Build.0 = Release|x64
+		{2B1957DC-B4A0-4751-9EF8-3B2FB3A682E7}.Debug|x64.ActiveCfg = Debug|x64
+		{2B1957DC-B4A0-4751-9EF8-3B2FB3A682E7}.Debug|x64.Build.0 = Debug|x64
+		{2B1957DC-B4A0-4751-9EF8-3B2FB3A682E7}.Release|x64.ActiveCfg = Release|x64
+		{2B1957DC-B4A0-4751-9EF8-3B2FB3A682E7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

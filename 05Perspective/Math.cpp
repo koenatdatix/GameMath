@@ -59,14 +59,19 @@ std::array<float, 4> gm::Normalize(const std::array<float, 4>& vertex)
 	return result;
 }
 
+std::array<float, 4> gm::VertexMultiply(const std::array<float, 4>& vertex, const float& scalar)
+{
+	return std::array<float, 4>{ vertex[0] * scalar, vertex[1] * scalar, vertex[2] * scalar, vertex[3] * scalar};
+}
+
+std::array<float, 4> gm::VertexAdd(const std::array<float, 4>& vertex1, const std::array<float, 4>& vertex2)
+{
+	return std::array<float, 4>{ vertex1[0] + vertex2[0], vertex1[1] + vertex2[1], vertex1[2] + vertex2[2], vertex1[3] + vertex2[3]};
+}
+
 std::array<float, 4> gm::VertexSubtract(const std::array<float, 4>& vertex1, const std::array<float, 4>& vertex2)
 {
-	std::array<float, 4> result{};
-	result[0] = vertex1[0] - vertex2[0];
-	result[1] = vertex1[1] - vertex2[1];
-	result[2] = vertex1[2] - vertex2[2];
-	result[3] = 0.f;
-	return result;
+	return std::array<float, 4>{ vertex1[0] - vertex2[0], vertex1[1] - vertex2[1], vertex1[2] - vertex2[2], vertex1[3] - vertex2[3]};
 }
 
 std::array<float, 4> gm::Middle(const std::array<float, 4>& vertex1, const std::array<float, 4>& vertex2, const std::array<float, 4>& vertex3)
@@ -221,13 +226,23 @@ std::array<float, 4> gm::QuaternionMultiply(const std::array<float, 4>& quat1, c
 {
 	return std::array<float, 4>{
 		quat1[0] * quat2[0] - quat1[1] * quat2[1] - quat1[2] * quat2[2] - quat1[3] * quat2[3],
-		quat1[0] * quat2[1] + quat1[1] * quat2[0] + quat1[2] * quat2[3] - quat1[3] * quat2[2],
-		quat1[0] * quat2[2] - quat1[1] * quat2[3] + quat1[2] * quat2[0] + quat1[3] * quat2[1],
-		quat1[0] * quat2[3] + quat1[1] * quat2[2] - quat1[2] * quat2[1] + quat1[3] * quat2[0]};
+			quat1[0] * quat2[1] + quat1[1] * quat2[0] + quat1[2] * quat2[3] - quat1[3] * quat2[2],
+			quat1[0] * quat2[2] - quat1[1] * quat2[3] + quat1[2] * quat2[0] + quat1[3] * quat2[1],
+			quat1[0] * quat2[3] + quat1[1] * quat2[2] - quat1[2] * quat2[1] + quat1[3] * quat2[0]};
 }
 
 std::array<float, 4> gm::QuaternionRotate(const std::array<float, 4>& quat1, const std::array<float, 4>& quat2)
 {
 	std::array<float, 4> quat1Inv{ quat1[0], -quat1[1], -quat1[2], -quat1[3] };
 	return gm::QuaternionMultiply(gm::QuaternionMultiply(quat1, quat2), quat1Inv);
+}
+
+std::array<float, 4> gm::QuaternionCross(const std::array<float, 4>& vertex1, const std::array<float, 4>& vertex2)
+{
+	std::array<float, 4> result{};
+	result[0] = 0.f;
+	result[1] = vertex1[2] * vertex2[3] - vertex1[3] * vertex2[2];
+	result[2] = vertex1[3] * vertex2[1] - vertex1[1] * vertex2[3];
+	result[3] = vertex1[1] * vertex2[2] - vertex1[2] * vertex2[1];
+	return result;
 }

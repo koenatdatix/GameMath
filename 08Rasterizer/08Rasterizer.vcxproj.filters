@@ -10,10 +10,28 @@
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="Shared">
-      <UniqueIdentifier>{422d04f8-29fa-4bdc-8d0f-dba3465c56af}</UniqueIdentifier>
+      <UniqueIdentifier>{5ec33cf3-a6f3-4d8d-b6a0-a0fe51c3fca4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="FixedCamera.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingCamera.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowClass.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,24 +44,24 @@
     <ClCompile Include="wWinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowClass.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>Shared</Filter>
     </ClInclude>
-    <ClInclude Include="Cylinder.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CursorMode.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedCamera.h">
+      <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseButton.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingCamera.h">
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -54,6 +72,12 @@
     </ClInclude>
     <ClInclude Include="WindowClass.h">
       <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>

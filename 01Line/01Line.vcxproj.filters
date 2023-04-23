@@ -20,15 +20,6 @@
     <ClCompile Include="wWinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="FixedCamera.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingCamera.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
@@ -52,22 +43,7 @@
     <ClInclude Include="pch.h">
       <Filter>Shared</Filter>
     </ClInclude>
-    <ClInclude Include="MovingCamera.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseButton.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="FixedCamera.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="CursorMode.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>

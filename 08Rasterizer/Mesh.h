@@ -13,8 +13,6 @@ namespace gm
 		virtual ~Mesh() = default;
 
 		virtual void Move(const float duration, const gm::MouseButton mouseButton, const POINT& pos);
-		virtual void SetHasMoved();
-		//virtual void Render(ID2D1HwndRenderTarget* pRenderTarget, ID2D1SolidColorBrush* pSolidColorBrush);
 		virtual void Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush);
 	protected:
 		std::vector<std::array<float, 4>> mVertices;
@@ -27,6 +25,7 @@ namespace gm
 		std::vector<std::array<float, 4>> mWorldVertices;
 		std::vector<std::array<float, 4>> mWvpVertices;
 		std::array<float, 16> mObjectToWorldMatrix;
+		std::vector<float> mDots;
 
 		static const std::array<float, 16> mIdentityMatrix;
 
