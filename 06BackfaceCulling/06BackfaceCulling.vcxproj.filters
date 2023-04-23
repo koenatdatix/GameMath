@@ -23,9 +23,6 @@
     <ClCompile Include="Math.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
-    <ClCompile Include="MovingCamera.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="MouseButton.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingCamera.h">
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">

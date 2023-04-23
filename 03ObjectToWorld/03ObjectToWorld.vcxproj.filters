@@ -23,9 +23,6 @@
     <ClCompile Include="Math.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
-    <ClCompile Include="MovingCamera.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
@@ -49,19 +46,10 @@
     <ClInclude Include="Camera.h">
       <Filter>Shared</Filter>
     </ClInclude>
-    <ClInclude Include="CursorMode.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
     <ClInclude Include="FixedCamera.h">
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseButton.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingCamera.h">
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">

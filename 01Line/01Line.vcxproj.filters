@@ -20,9 +20,6 @@
     <ClCompile Include="wWinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Shared</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
@@ -41,9 +38,6 @@
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Shared</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>

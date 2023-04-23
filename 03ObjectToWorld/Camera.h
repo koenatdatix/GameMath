@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "MouseButton.h"
 
 namespace gm
 {
@@ -15,7 +14,6 @@ namespace gm
 		std::array<float, 16>& GetProj();
 		void CalcViewProj();
 		void SetAspectRatio(uint32_t width, uint32_t height);
-		virtual void Move(const float duration, const gm::MouseButton mouseButton, const POINT& pos) = 0;
 	protected:
 		std::array<float, 16>
 			mView,

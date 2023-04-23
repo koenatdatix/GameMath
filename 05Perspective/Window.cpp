@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "FixedCamera.h"
-#include "MovingCamera.h"
 
 gm::Window::Window(const std::wstring& title, uint32_t width, uint32_t height)
 	: mTitle{ title }
@@ -113,11 +112,4 @@ void gm::Window::SetFixedCamera(uint32_t width, uint32_t height)
 	if (mpCamera != nullptr)
 		delete mpCamera;
 	mpCamera = new FixedCamera{ width, height };
-}
-
-void gm::Window::SetMovingCamera(uint32_t width, uint32_t height)
-{
-	if (mpCamera != nullptr)
-		delete mpCamera;
-	mpCamera = new MovingCamera{ width, height };
 }

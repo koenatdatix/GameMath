@@ -149,7 +149,6 @@
     <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MovingCamera.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowClass.cpp" />
     <ClCompile Include="wWinMain.cpp" />
@@ -157,13 +156,10 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CursorMode.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MouseButton.h" />
-    <ClInclude Include="MovingCamera.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowClass.h" />
