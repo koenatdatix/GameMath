@@ -22,6 +22,7 @@ namespace gm
 		void SetFixedCamera(uint32_t width = 1280, uint32_t height = 960);
 		void SetMovingCamera(uint32_t width = 1280, uint32_t height = 960);
 		void Resize(uint32_t width, uint32_t height);
+		float* GetDepthBuffer();
 	private:
 		const std::wstring mTitle;
 		uint32_t
@@ -32,5 +33,6 @@ namespace gm
 		ID2D1HwndRenderTarget* mpRenderTarget;
 		ID2D1SolidColorBrush* mpSolidColorBrush;
 		Camera* mpCamera;
+		float* mpDepthBuffer;
 	};
 }

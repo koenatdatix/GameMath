@@ -11,6 +11,7 @@ gm::Window::Window(const std::wstring& title, uint32_t width, uint32_t height)
 	, mpRenderTarget{ nullptr }
 	, mpSolidColorBrush{ nullptr }
 	, mpCamera{ new FixedCamera{ width, height } }
+	, mpDepthBuffer{ new float[width * height] }
 {
 }
 
@@ -20,6 +21,7 @@ gm::Window::~Window()
 	SafeRelease(&mpRenderTarget);
 	if (mpCamera != nullptr)
 		delete mpCamera;
+	delete[] mpDepthBuffer;
 }
 
 BOOL gm::Window::Initialize(const gm::Application* pApplication, const std::wstring& className, const int nCmdShow)
@@ -131,4 +133,11 @@ void gm::Window::Resize(uint32_t width, uint32_t height)
 	// TODO: Resize camera
 	//if (mpCamera != nullptr)
 	//	mpCamera->Resize(width, height);
+	delete[] mpDepthBuffer;
+	mpDepthBuffer = new float[mWidth * mHeight];
+}
+
+float* gm::Window::GetDepthBuffer()
+{
+	return mpDepthBuffer;
 }
