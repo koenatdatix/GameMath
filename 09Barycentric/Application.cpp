@@ -152,6 +152,7 @@ void gm::Application::Render()
 	pRenderTarget->BeginDraw();
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+	mWindow.ClearDepthBuffer();
 
 	for (auto& meshPtr : mMeshesPtr)
 		meshPtr->Render(&mWindow, pSolidColorBrush);

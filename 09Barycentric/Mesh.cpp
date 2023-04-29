@@ -20,6 +20,7 @@ gm::Mesh::Mesh()
 	, mWorldVertices{}
 	, mWvpVertices{}
 	, mObjectToWorldMatrix{}
+	, mNormals{}
 	, mDots{}
 {}
 
@@ -109,6 +110,8 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 	}
 	std::array<float, 4> camPos{};
 	camPos = pCamera->GetPosition();
+	mNormals.clear();
+	mNormals.reserve(mTriangles.size());
 	mDots.clear();
 	mDots.reserve(mTriangles.size());
 	for (auto& triangle : mTriangles)
@@ -121,16 +124,13 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 			v0{ gm::VertexSubtract(p1, p0) },
 			v1{ gm::VertexSubtract(p2, p0) };
 		std::array<float, 4> middle{ Middle(p0, p1, p2) };
-		mDots.emplace_back(
-			gm::Dot(
-				gm::Normalize(Cross(v0, v1)),
-				gm::VertexSubtract(camPos, middle)
-			)
-		);
+		std::array<float, 4> normal{ gm::Normalize(Cross(v0, v1)) };
+		mNormals.emplace_back(normal);
+		mDots.emplace_back(gm::Dot(normal, gm::VertexSubtract(camPos, middle)));
 	}
 
 	for (uint64_t i{ 0 }; i < mTriangles.size(); ++i)
-		if ((mDots[i] <= 0.f) &&
+		if ((mDots[i] < 0.f) &&
 			(mWvpVertices[mTriangles[i][0]][2] > 0.001f) &&
 			(mWvpVertices[mTriangles[i][1]][2] > 0.001f) &&
 			(mWvpVertices[mTriangles[i][2]][2] > 0.001f)
@@ -138,17 +138,11 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 			Rasterize(
 				pWindow,
 				pSolidColorBrush,
+				mNormals[i],
 				mWvpVertices[mTriangles[i][0]],
 				mWvpVertices[mTriangles[i][1]],
 				mWvpVertices[mTriangles[i][2]]
 			);
-			//RenderTriangle(
-			//	pWindow,
-			//	pSolidColorBrush,
-			//	mWvpVertices[mTriangles[i][0]],
-			//	mWvpVertices[mTriangles[i][1]],
-			//	mWvpVertices[mTriangles[i][2]]
-			//);
 }
 
 void gm::Mesh::RenderTriangle(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3)
@@ -163,14 +157,17 @@ void gm::Mesh::RenderTriangle(Window* pWindow, ID2D1SolidColorBrush* pSolidColor
 	pRenderTarget->DrawLine(D2D1_POINT_2F{ v3[0] + x, y - v3[1] }, D2D1_POINT_2F{ v1[0] + x, y - v1[1] }, pSolidColorBrush);
 }
 
-void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3)
+void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& normal, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3)
 {
+	const std::array<float, 4>& lightDirection{ pWindow->GetLightDirection() };
 	ID2D1HwndRenderTarget* pRenderTarget{ pWindow->GetRenderTarget() };
 	[[maybe_unused]] float* pDepthBuffer{ pWindow->GetDepthBuffer() };
 	D2D1_SIZE_F size{ pRenderTarget->GetSize() };
 	float
-		x2{ float(size.width) / 2.f },
-		y2{ float(size.height) / 2.f };
+		x2{ size.width / 2.f },
+		y2{ size.height / 2.f };
+	[[maybe_unused]] int32_t ix2{ int32_t(x2) };
+	[[maybe_unused]] int32_t iy2{ int32_t(y2) };
 	float
 		xmin{ v1[0] },
 		xmax{ v1[0] },
@@ -206,22 +203,17 @@ void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush
 			std::array<float, 4> p{ float(x), float(y), 0.f, 1.f };
 			if (InsideTriangle(v1, v2, v3, p))
 			{
-				//float
-				//	w0{ EdgeFunction(v2, v3, p) },
-				//	w1{ EdgeFunction(v3, v1, p) },
-				//	w2{ EdgeFunction(v1, v2, p) };
-				//w0 /= EdgeFunction(v2, v3, v1);
-				//w1 /= EdgeFunction(v3, v1, v2);
-				//w2 /= EdgeFunction(v1, v2, v3);
-				//float z{ (w0 * v1[2]) + (w1 * v2[2]) + (w2 * v3[2]) };
-				//if (z < pDepthBuffer[(int32_t(y2) - y) * int32_t(size.width) + x + int32_t(x2)])
-				//{
-				//	pDepthBuffer[(int32_t(y2) - y) * int32_t(size.width) + x + int32_t(x2)] = z;
-					pRenderTarget->DrawLine(D2D1_POINT_2F{ float(x) + x2, y2 - float(y) }, D2D1_POINT_2F{ float(x) + x2+ 1.f, y2 - float(y) }, pSolidColorBrush);
-				//}
+				std::array<float, 3> barycentric{ Barycentric(v1, v2, v3, p) };
+				float z{ v1[2] * barycentric[0] + v2[2] * barycentric[1] + v3[2] * barycentric[2] };
+				if (z < pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2])
+				{
+					float intensity{ std::clamp(gm::Dot(normal, lightDirection), 0.05f, 1.f) };
+					pSolidColorBrush->SetColor(D2D1::ColorF(intensity, intensity, intensity));
+					pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2] = z;
+					pRenderTarget->DrawLine(D2D1_POINT_2F{ float(x) + x2, y2 - float(y) }, D2D1_POINT_2F{ float(x) + x2 + 1.f, y2 - float(y) }, pSolidColorBrush);
+				}
 			}
 		}
-
 }
 
 bool gm::Mesh::InsideTriangle(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p)
@@ -234,6 +226,15 @@ bool gm::Mesh::InsideTriangle(const std::array<float, 4>& v1, const std::array<f
 	w1 /= EdgeFunction(v3, v1, v2);
 	w2 /= EdgeFunction(v1, v2, v3);
 	return (w0 >= 0.f) && (w1 >= 0.f) && (w2 >= 0.f);
+}
+
+std::array<float, 3> gm::Mesh::Barycentric(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p)
+{
+	float area2{ (v2[1] - v3[1]) * (v1[0] - v3[0]) + (v3[0] - v2[0]) * (v1[1] - v3[1]) };
+	float
+		alpha{ (v2[1] - v3[1]) * (p[0] - v3[0]) + (v3[0] - v2[0]) * (p[1] - v3[1]) / area2 },
+		beta{ (v3[1] - v1[1]) * (p[0] - v3[0]) + (v1[0] - v3[0]) + (p[1] - v3[1]) / area2 };
+	return std::array<float, 3>{ alpha, beta, 1.f - alpha - beta };
 }
 
 float gm::Mesh::EdgeFunction(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& p)

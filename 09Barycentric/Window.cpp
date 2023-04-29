@@ -12,6 +12,7 @@ gm::Window::Window(const std::wstring& title, uint32_t width, uint32_t height)
 	, mpSolidColorBrush{ nullptr }
 	, mpCamera{ new FixedCamera{ width, height } }
 	, mpDepthBuffer{ new float[width * height] }
+	, mLightDirection{ -0.57735f, -0.57735f, 0.57735f, 0.f }
 {
 }
 
@@ -140,4 +141,15 @@ void gm::Window::Resize(uint32_t width, uint32_t height)
 float* gm::Window::GetDepthBuffer()
 {
 	return mpDepthBuffer;
+}
+
+void gm::Window::ClearDepthBuffer()
+{
+	for (uint32_t i{ 0 }; i < mWidth * mHeight; ++i)
+		mpDepthBuffer[i] = 1000000.0f;
+}
+
+const std::array<float, 4>& gm::Window::GetLightDirection()
+{
+	return mLightDirection;
 }

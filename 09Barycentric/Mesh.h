@@ -25,13 +25,15 @@ namespace gm
 		std::vector<std::array<float, 4>> mWorldVertices;
 		std::vector<std::array<float, 4>> mWvpVertices;
 		std::array<float, 16> mObjectToWorldMatrix;
+		std::vector<std::array<float, 4>> mNormals;
 		std::vector<float> mDots;
 
 		static const std::array<float, 16> mIdentityMatrix;
 
 		void RenderTriangle(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3);
-		void Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3);
+		void Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& normal, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3);
 		bool InsideTriangle(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p);
+		std::array<float, 3> Barycentric(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p);
 		float EdgeFunction(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& p);
 	};
 }

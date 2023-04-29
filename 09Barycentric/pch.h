@@ -12,6 +12,7 @@
 #include <numbers>
 #include <cmath>
 #include <thread>
+#include <algorithm>
 
 #define WIN32_LEAN_AND_MEAN
 #define OEMRESOURCE
