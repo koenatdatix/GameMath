@@ -201,9 +201,12 @@ void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush
 		for (int32_t x{ int32_t(xmin) }; x <= int32_t(xmax); ++x)
 		{
 			std::array<float, 4> p{ float(x), float(y), 0.f, 1.f };
-			if (InsideTriangle(v1, v2, v3, p))
+			std::array<float, 3> barycentric{ Barycentric(v1, v2, v3, p) };
+			float justBelowZero{ -.001f };
+			if (barycentric[0] >= justBelowZero &&
+				barycentric[1] >= justBelowZero &&
+				barycentric[2] >= justBelowZero)
 			{
-				std::array<float, 3> barycentric{ Barycentric(v1, v2, v3, p) };
 				float z{ v1[2] * barycentric[0] + v2[2] * barycentric[1] + v3[2] * barycentric[2] };
 				if (z < pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2])
 				{
@@ -216,28 +219,11 @@ void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush
 		}
 }
 
-bool gm::Mesh::InsideTriangle(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p)
-{
-	float
-		w0{ EdgeFunction(v2, v3, p) },
-		w1{ EdgeFunction(v3, v1, p) },
-		w2{ EdgeFunction(v1, v2, p) };
-	w0 /= EdgeFunction(v2, v3, v1);
-	w1 /= EdgeFunction(v3, v1, v2);
-	w2 /= EdgeFunction(v1, v2, v3);
-	return (w0 >= 0.f) && (w1 >= 0.f) && (w2 >= 0.f);
-}
-
 std::array<float, 3> gm::Mesh::Barycentric(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p)
 {
-	float area2{ (v2[1] - v3[1]) * (v1[0] - v3[0]) + (v3[0] - v2[0]) * (v1[1] - v3[1]) };
+	float determinant{ (v2[1] - v3[1]) * (v1[0] - v3[0]) + (v3[0] - v2[0]) * (v1[1] - v3[1]) };
 	float
-		alpha{ (v2[1] - v3[1]) * (p[0] - v3[0]) + (v3[0] - v2[0]) * (p[1] - v3[1]) / area2 },
-		beta{ (v3[1] - v1[1]) * (p[0] - v3[0]) + (v1[0] - v3[0]) + (p[1] - v3[1]) / area2 };
+		alpha{ ((v2[1] - v3[1]) * (p[0] - v3[0]) + (v3[0] - v2[0]) * (p[1] - v3[1])) / determinant },
+		beta{ ((v3[1] - v1[1]) * (p[0] - v3[0]) + (v1[0] - v3[0]) * (p[1] - v3[1])) / determinant };
 	return std::array<float, 3>{ alpha, beta, 1.f - alpha - beta };
-}
-
-float gm::Mesh::EdgeFunction(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& p)
-{
-	return ((p[0] - v1[0]) * (v2[1] - v1[1])) - ((p[1] - v1[1]) * (v2[0] - v1[0]));
 }
