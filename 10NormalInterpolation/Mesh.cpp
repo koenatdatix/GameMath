@@ -18,11 +18,17 @@ gm::Mesh::Mesh()
 	, mRotation{ 0.f, 0.f, 0.f }
 	, mHasMoved{ true }
 	, mWorldVertices{}
+	, mWorldNormals{}
 	, mWvpVertices{}
 	, mObjectToWorldMatrix{}
-	, mNormals{}
+	, mFaceNormals{}
 	, mDots{}
 {}
+
+void gm::Mesh::SetTranslation(const std::array<float, 3>& position)
+{
+	mTranslation = position;
+}
 
 void gm::Mesh::Move([[maybe_unused]] const float duration, const gm::MouseButton mouseButton, const POINT& pos)
 {
@@ -108,10 +114,20 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 		v[1] *= (size.height / 2.f);
 		mWvpVertices.emplace_back(v);
 	}
+	if (!mNormals.empty())
+	{
+		mWorldNormals.clear();
+		mWorldNormals.reserve(mNormals.size());
+		for (auto& normal : mNormals)
+			mWorldNormals.emplace_back(gm::MatrixMultiply(normal, mObjectToWorldMatrix));
+	}
 	std::array<float, 4> camPos{};
 	camPos = pCamera->GetPosition();
-	mNormals.clear();
-	mNormals.reserve(mTriangles.size());
+	if (mNormals.empty())
+	{
+		mFaceNormals.clear();
+		mFaceNormals.reserve(mTriangles.size());
+	}
 	mDots.clear();
 	mDots.reserve(mTriangles.size());
 	for (auto& triangle : mTriangles)
@@ -125,24 +141,49 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 			v1{ gm::VertexSubtract(p2, p0) };
 		std::array<float, 4> middle{ Middle(p0, p1, p2) };
 		std::array<float, 4> normal{ gm::Normalize(Cross(v1, v0)) };
-		mNormals.emplace_back(normal);
+		if (mNormals.empty())
+			mFaceNormals.emplace_back(normal);
 		mDots.emplace_back(gm::Dot(normal, gm::VertexSubtract(camPos, middle)));
 	}
 
-	for (uint64_t i{ 0 }; i < mTriangles.size(); ++i)
-		if ((mDots[i] >= 0.f) &&
-			(mWvpVertices[mTriangles[i][0]][2] > 0.001f) &&
-			(mWvpVertices[mTriangles[i][1]][2] > 0.001f) &&
-			(mWvpVertices[mTriangles[i][2]][2] > 0.001f)
-			)
-			Rasterize(
-				pWindow,
-				pSolidColorBrush,
-				mNormals[i],
-				mWvpVertices[mTriangles[i][0]],
-				mWvpVertices[mTriangles[i][1]],
-				mWvpVertices[mTriangles[i][2]]
-			);
+	if (mNormals.empty())
+		for (uint64_t i{ 0 }; i < mTriangles.size(); ++i)
+		{
+			if ((mDots[i] >= 0.f) &&
+				(mWvpVertices[mTriangles[i][0]][2] > 0.001f) &&
+				(mWvpVertices[mTriangles[i][1]][2] > 0.001f) &&
+				(mWvpVertices[mTriangles[i][2]][2] > 0.001f)
+				)
+				Rasterize(
+					pWindow,
+					pSolidColorBrush,
+					mFaceNormals[i],
+					mWvpVertices[mTriangles[i][0]],
+					mWvpVertices[mTriangles[i][1]],
+					mWvpVertices[mTriangles[i][2]]
+				);
+
+		}
+	else
+	{
+		for (uint64_t i{ 0 }; i < mTriangles.size(); ++i)
+			if ((mDots[i] >= 0.f) &&
+				(mWvpVertices[mTriangles[i][0]][2] > 0.001f) &&
+				(mWvpVertices[mTriangles[i][1]][2] > 0.001f) &&
+				(mWvpVertices[mTriangles[i][2]][2] > 0.001f)
+				)
+				Rasterize(
+					pWindow,
+					pSolidColorBrush,
+					mWvpVertices[mTriangles[i][0]],
+					mWorldNormals[mTriangles[i][0]],
+					mWvpVertices[mTriangles[i][1]],
+					mWorldNormals[mTriangles[i][1]],
+					mWvpVertices[mTriangles[i][2]],
+					mWorldNormals[mTriangles[i][2]]
+				);
+
+	}
 }
 
 void gm::Mesh::RenderTriangle(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3)
@@ -210,7 +251,73 @@ void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush
 				float z{ v1[2] * barycentric[0] + v2[2] * barycentric[1] + v3[2] * barycentric[2] };
 				if (z < pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2])
 				{
-					float intensity{ std::clamp(gm::Dot(normal, invLightDirection), 0.05f, 1.f) };
+					float intensity{ std::clamp(gm::Dot(normal, invLightDirection), 0.1f, 1.f) };
+					pSolidColorBrush->SetColor(D2D1::ColorF(intensity, intensity, intensity));
+					pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2] = z;
+					pRenderTarget->DrawLine(D2D1_POINT_2F{ float(x) + x2, y2 - float(y) }, D2D1_POINT_2F{ float(x) + x2 + 1.f, y2 - float(y) }, pSolidColorBrush);
+				}
+			}
+		}
+}
+
+void gm::Mesh::Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& n1, const std::array<float, 4>& v2, const std::array<float, 4>& n2, const std::array<float, 4>& v3, const std::array<float, 4>& n3)
+{
+	const std::array<float, 4>& invLightDirection{ gm::VertexMultiply(pWindow->GetLightDirection(), -1.f) };
+	ID2D1HwndRenderTarget* pRenderTarget{ pWindow->GetRenderTarget() };
+	[[maybe_unused]] float* pDepthBuffer{ pWindow->GetDepthBuffer() };
+	D2D1_SIZE_F size{ pRenderTarget->GetSize() };
+	float
+		x2{ size.width / 2.f },
+		y2{ size.height / 2.f };
+	[[maybe_unused]] int32_t ix2{ int32_t(x2) };
+	[[maybe_unused]] int32_t iy2{ int32_t(y2) };
+	float
+		xmin{ v1[0] },
+		xmax{ v1[0] },
+		ymin{ v1[1] },
+		ymax{ v1[1] };
+	if (v2[0] < xmin)
+		xmin = v2[0];
+	if (v2[0] > xmax)
+		xmax = v2[0];
+	if (v3[0] < xmin)
+		xmin = v3[0];
+	if (v3[0] > xmax)
+		xmax = v3[0];
+	if (v2[1] < ymin)
+		ymin = v2[1];
+	if (v2[1] > ymax)
+		ymax = v2[1];
+	if (v3[1] < ymin)
+		ymin = v3[1];
+	if (v3[1] > ymax)
+		ymax = v3[1];
+	if (xmin < -x2)
+		xmin = -x2;
+	if (xmax > x2)
+		xmax = x2;
+	if (ymin < -y2)
+		ymin = -y2;
+	if (ymax > y2)
+		ymax = y2;
+	for (int32_t y{ int32_t(ymin) }; y <= int32_t(ymax); ++y)
+		for (int32_t x{ int32_t(xmin) }; x <= int32_t(xmax); ++x)
+		{
+			std::array<float, 4> p{ float(x), float(y), 0.f, 1.f };
+			std::array<float, 3> barycentric{ Barycentric(v1, v2, v3, p) };
+			float justBelowZero{ -.001f };
+			if (barycentric[0] >= justBelowZero &&
+				barycentric[1] >= justBelowZero &&
+				barycentric[2] >= justBelowZero)
+			{
+				float z{ v1[2] * barycentric[0] + v2[2] * barycentric[1] + v3[2] * barycentric[2] };
+				if (z < pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2])
+				{
+					std::array<float, 4> normal{
+						gm::VertexAdd(
+							gm::VertexAdd(gm::VertexMultiply(n1, barycentric[0]), gm::VertexMultiply(n2, barycentric[1])),
+							gm::VertexMultiply(n3, barycentric[2])) };
+					float intensity{ std::clamp(gm::Dot(normal, invLightDirection), 0.1f, 1.f) };
 					pSolidColorBrush->SetColor(D2D1::ColorF(intensity, intensity, intensity));
 					pDepthBuffer[(iy2 - y) * int32_t(size.width) + x + ix2] = z;
 					pRenderTarget->DrawLine(D2D1_POINT_2F{ float(x) + x2, y2 - float(y) }, D2D1_POINT_2F{ float(x) + x2 + 1.f, y2 - float(y) }, pSolidColorBrush);
