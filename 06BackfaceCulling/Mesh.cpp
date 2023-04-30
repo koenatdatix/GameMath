@@ -103,7 +103,7 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 			std::array<float, 4> v{ gm::MatrixMultiply(vertex, wvp) };
 			v[0] /= v[3];
 			v[1] /= v[3];
-			v[2] = 1.f - (v[2] / v[3]);
+			v[2] /= v[3];
 			v[0] *= (size.width / 2.f);
 			v[1] *= (size.height / 2.f);
 			mWvpVertices.emplace_back(v);

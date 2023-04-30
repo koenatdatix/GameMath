@@ -102,7 +102,7 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 		std::array<float, 4> v{ gm::MatrixMultiply(vertex, wvp) };
 		v[0] /= v[3];
 		v[1] /= v[3];
-		v[2] = 1.f - (v[2] / v[3]);
+		v[2] /= v[3];
 		v[0] *= (size.width / 2.f);
 		v[1] *= (size.height / 2.f);
 		mWvpVertices.emplace_back(v);
@@ -129,11 +129,12 @@ void gm::Mesh::Render(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush)
 		);
 	}
 
+	float zMin{ .96f };
 	for (uint64_t i{ 0 }; i < mTriangles.size(); ++i)
 		if ((mDots[i] <= 0.f) &&
-			(mWvpVertices[mTriangles[i][0]][2] > 0.001f) &&
-			(mWvpVertices[mTriangles[i][1]][2] > 0.001f) &&
-			(mWvpVertices[mTriangles[i][2]][2] > 0.001f)
+			(mWvpVertices[mTriangles[i][0]][2] > zMin) &&
+			(mWvpVertices[mTriangles[i][1]][2] > zMin) &&
+			(mWvpVertices[mTriangles[i][2]][2] > zMin)
 			)
 			Rasterize(
 				pWindow,

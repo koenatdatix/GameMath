@@ -34,7 +34,6 @@ namespace gm
 		static const std::array<float, 16> mIdentityMatrix;
 
 		void RenderTriangle(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3);
-		void Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& normal, const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3);
 		void Rasterize(Window* pWindow, ID2D1SolidColorBrush* pSolidColorBrush, const std::array<float, 4>& v1, const std::array<float, 4>& n1, const std::array<float, 4>& v2, const std::array<float, 4>& n2, const std::array<float, 4>& v3, const std::array<float, 4>& n3);
 		std::array<float, 3> Barycentric(const std::array<float, 4>& v1, const std::array<float, 4>& v2, const std::array<float, 4>& v3, const std::array<float, 4>& p);
 	};
