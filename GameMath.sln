@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09Barycentric", "09Barycent
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "10NormalInterpolation", "10NormalInterpolation\10NormalInterpolation.vcxproj", "{E8AD0B60-BD16-438A-BCFF-04F1FFC94D58}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "11Texture", "11Texture\11Texture.vcxproj", "{B7B2F933-3DFB-474F-8E81-2D697384669E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -111,6 +113,14 @@ Global
 		{E8AD0B60-BD16-438A-BCFF-04F1FFC94D58}.Release|x64.Build.0 = Release|x64
 		{E8AD0B60-BD16-438A-BCFF-04F1FFC94D58}.Release|x86.ActiveCfg = Release|Win32
 		{E8AD0B60-BD16-438A-BCFF-04F1FFC94D58}.Release|x86.Build.0 = Release|Win32
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Debug|x64.ActiveCfg = Debug|x64
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Debug|x64.Build.0 = Debug|x64
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Debug|x86.ActiveCfg = Debug|Win32
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Debug|x86.Build.0 = Debug|Win32
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Release|x64.ActiveCfg = Release|x64
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Release|x64.Build.0 = Release|x64
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Release|x86.ActiveCfg = Release|Win32
+		{B7B2F933-3DFB-474F-8E81-2D697384669E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

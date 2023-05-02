@@ -36,7 +36,7 @@ LRESULT CALLBACK gm::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 gm::Application::Application(const int nCmdShow)
 	: mpWindowClass{ nullptr }
-	, mWindow{ L"GameMath 09: Barycentric" }
+	, mWindow{ L"GameMath 10: Normal Interpolation" }
 	, mpD2DFactory{ nullptr }
 	, mMeshesPtr{}
 	, mKeyboard{}
