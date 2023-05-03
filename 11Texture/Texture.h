@@ -7,11 +7,13 @@ namespace gm
 	{
 	public:
 		explicit Texture(const std::wstring& filename);
+		~Texture();
 		std::array<float, 4> GetPixelColor(float u, float v) const;
 	private:
-		IWICBitmapFrameDecode* mpBitmapSource;
-		float
+
+		UINT
 			mWidth,
 			mHeight;
+		BYTE* mpPixelData;
 	};
 }

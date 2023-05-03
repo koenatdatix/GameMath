@@ -56,10 +56,10 @@ gm::Application::Application(const int nCmdShow)
 
 	std::shared_ptr<gm::CylinderNormals> pCylinderNormals{ std::make_shared<gm::CylinderNormals>(100.f, 300.f, 16) };
 	pCylinderNormals->SetTranslation({ -150.f, 0.f, 0.f });
+	pCylinderNormals->SetTexture(L"../Data/Textures/QuixelOldLogWall2KAlbedo.jpg");
 	mMeshesPtr.emplace_back(pCylinderNormals);
 	std::shared_ptr<gm::Cylinder> pCylinder{ std::make_shared<gm::Cylinder>(100.f, 300.f, 16) };
 	pCylinder->SetTranslation({ 150.f, 0.f, 0.f });
-	pCylinder->SetTexture(L"../Data/Textures/QuixelOldLogWall2KAlbedo.jpg");
 	mMeshesPtr.emplace_back(pCylinder);
 }
 
