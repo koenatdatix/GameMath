@@ -282,7 +282,8 @@ void gm::Mesh::Rasterize(
 						};
 						uv[0] = std::clamp(uv[0], 0.f, 1.f);
 						uv[1] = std::clamp(uv[1], 0.f, 1.f);
-						color = mpTexture->GetPixelColor(uv[0], uv[1]);
+						//color = mpTexture->GetPixelColor(uv[0], uv[1]);
+						color = mpTexture->SampleBilinear(uv[0], uv[1]);
 					}
 					std::array<float, 4> normal{
 						gm::VertexAdd(
