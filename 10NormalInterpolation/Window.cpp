@@ -131,9 +131,8 @@ void gm::Window::Resize(uint32_t width, uint32_t height)
 	mHeight = height;
 	if (mpRenderTarget != nullptr)
 		mpRenderTarget->Resize(D2D1::SizeU(mWidth, mHeight));
-	// TODO: Resize camera
-	//if (mpCamera != nullptr)
-	//	mpCamera->Resize(width, height);
+	if (mpCamera != nullptr)
+		mpCamera->SetAspectRatio(width, height);
 	delete[] mpDepthBuffer;
 	mpDepthBuffer = new float[mWidth * mHeight];
 }

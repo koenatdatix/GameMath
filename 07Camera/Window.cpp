@@ -121,3 +121,13 @@ void gm::Window::SetMovingCamera(uint32_t width, uint32_t height)
 		delete mpCamera;
 	mpCamera = new MovingCamera{ width, height };
 }
+
+void gm::Window::Resize(uint32_t width, uint32_t height)
+{
+	mWidth = width;
+	mHeight = height;
+	if (mpRenderTarget != nullptr)
+		mpRenderTarget->Resize(D2D1::SizeU(mWidth, mHeight));
+	if (mpCamera != nullptr)
+		mpCamera->SetAspectRatio(width, height);
+}

@@ -20,6 +20,7 @@ namespace gm
 		ID2D1SolidColorBrush* GetSolidColorBrush();
 		Camera* GetCamera();
 		void SetFixedCamera(uint32_t width = 1280, uint32_t height = 960);
+		void Resize(uint32_t width, uint32_t height);
 	private:
 		const std::wstring mTitle;
 		uint32_t

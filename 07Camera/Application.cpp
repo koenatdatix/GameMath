@@ -161,9 +161,7 @@ void gm::Application::Render()
 
 void gm::Application::OnResize(const UINT width, const UINT height)
 {
-	ID2D1HwndRenderTarget* pRenderTarget{ mWindow.GetRenderTarget() };
-	if (pRenderTarget != nullptr)
-		pRenderTarget->Resize(D2D1::SizeU(width, height));
+	mWindow.Resize(width, height);
 	Render();
 }
 
